@@ -7,23 +7,18 @@ the Rust library to a target.
 #
 # You can modify this function by adding your own build types, but remember to add a
 # corresponding rust profile in the rust/Cargo.toml file.
-function(detect_rust_build_type _rust_build_type _rust_profile_args)
+function(detect_rust_build_type _rust_build_type)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(${_rust_build_type} "debug" PARENT_SCOPE)
-        set(${_rust_profile_args} "" PARENT_SCOPE)
     elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
         set(${_rust_build_type} "release" PARENT_SCOPE)
-        set(${_rust_profile_args} "--profile release" PARENT_SCOPE)
     elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
         set(${_rust_build_type} "rel-with-deb-info" PARENT_SCOPE)
-        set(${_rust_profile_args} "--profile rel-with-deb-info" PARENT_SCOPE)
     elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
         set(${_rust_build_type} "min-size-rel" PARENT_SCOPE)
-        set(${_rust_profile_args} "--profile min-size-rel" PARENT_SCOPE)
     else()
         message(FATAL_ERROR "Unknown build type: ${CMAKE_BUILD_TYPE}")
     endif()
-    message("rust_build_type set to ${${_rust_build_type}}")
 endfunction()
 
 # This function detects the suffixes for dynamic and static libraries according to the
@@ -46,12 +41,21 @@ function(detect_profile_suffixes _dyn_lib_suffix _lib_suffix)
 endfunction()
 
 # target that builds the Rust library
-detect_rust_build_type(rust_build_type rust_profile_args)
-add_custom_target(
-    build_rust_lib
-    COMMAND cargo build ${rust_profile_args}
-    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/../rust"
-)
+detect_rust_build_type(rust_build_type)
+set(cargo_dir "${CMAKE_CURRENT_LIST_DIR}/../rust")
+if (rust_build_type STREQUAL "debug")
+    add_custom_target(
+        build_rust_lib
+        COMMAND cargo build
+        WORKING_DIRECTORY ${cargo_dir}
+    )
+else()
+    add_custom_target(
+        build_rust_lib
+        COMMAND cargo build --profile ${rust_build_type}
+        WORKING_DIRECTORY ${cargo_dir}
+    )
+endif()
 
 # links a target to the Rust library
 function(link_rust_library target)
