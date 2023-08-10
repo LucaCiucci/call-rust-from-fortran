@@ -25,14 +25,17 @@ endfunction()
 # current platform.
 #
 # You can modify this function by adding platform-specific suffixes.
-function(detect_profile_suffixes _dyn_lib_suffix _lib_suffix)
+function(detect_profile_suffixes _prefix _dyn_lib_suffix _lib_suffix)
     if(WIN32)
+        set(${_prefix} "" PARENT_SCOPE)
         set(${_dyn_lib_suffix} ".dll" PARENT_SCOPE)
         set(${_lib_suffix} ".dll.lib" PARENT_SCOPE)
     elseif(UNIX)
+        set(${_prefix} "lib" PARENT_SCOPE)
         set(${_dyn_lib_suffix} ".so" PARENT_SCOPE)
         set(${_lib_suffix} ".a" PARENT_SCOPE)
     elseif(APPLE)
+        set(${_prefix} "lib" PARENT_SCOPE)
         set(${_dyn_lib_suffix} ".dylib" PARENT_SCOPE)
         set(${_lib_suffix} ".a" PARENT_SCOPE)
     else()
@@ -60,22 +63,22 @@ endif()
 # links a target to the Rust library
 function(link_rust_library target)
     detect_rust_build_type(rust_build_type rust_profile_args)
-    detect_profile_suffixes(dyn_lib_suffix lib_suffix)
+    detect_profile_suffixes(lib_prefix dyn_lib_suffix lib_suffix)
 
     message("rust_build_type: ${rust_build_type}")
     target_link_libraries(
         ${target}
         PRIVATE
-        "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/rust${lib_suffix}"
+        "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${_prefix}rust${lib_suffix}"
     )
-    message(linked "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/rust${lib_suffix}")
+    message(linked "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${_prefix}rust${lib_suffix}")
     add_dependencies(${target} build_rust_lib)
     target_include_directories(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings")
     add_custom_command(
         TARGET ${target} POST_BUILD
         COMMAND
             ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/rust${dyn_lib_suffix}"
+            "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${_prefix}rust${dyn_lib_suffix}"
             $<TARGET_FILE_DIR:${target}>
     )
 endfunction()
