@@ -21,7 +21,4 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-  build_macos:
-    runs-on: macos-latest
-
   # TODO windows and macos build
