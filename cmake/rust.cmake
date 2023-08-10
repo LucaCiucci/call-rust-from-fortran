@@ -69,16 +69,16 @@ function(link_rust_library target)
     target_link_libraries(
         ${target}
         PRIVATE
-        "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${_prefix}rust${lib_suffix}"
+        "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${lib_prefix}rust${lib_suffix}"
     )
-    message(linked "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${_prefix}rust${lib_suffix}")
+    message(linked "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${lib_prefix}rust${lib_suffix}")
     add_dependencies(${target} build_rust_lib)
     target_include_directories(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings")
     add_custom_command(
         TARGET ${target} POST_BUILD
         COMMAND
             ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${_prefix}rust${dyn_lib_suffix}"
+            "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${lib_prefix}rust${dyn_lib_suffix}"
             $<TARGET_FILE_DIR:${target}>
     )
 endfunction()
