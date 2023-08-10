@@ -21,4 +21,10 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
+    - name: Run Fortran Example
+      run: ./${{github.workspace}}/build/call_rust
+
+    - name: Run C++ Example
+      run: ./${{github.workspace}}/build/call_rust_from_c
+
   # TODO windows and macos build
