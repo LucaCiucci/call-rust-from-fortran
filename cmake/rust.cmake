@@ -65,15 +65,20 @@ function(link_rust_library target)
     detect_rust_build_type(rust_build_type rust_profile_args)
     detect_profile_suffixes(lib_prefix dyn_lib_suffix lib_suffix)
 
-    message("rust_build_type: ${rust_build_type}")
+    # link the Rust library
     target_link_libraries(
         ${target}
         PRIVATE
         "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${lib_prefix}rust${lib_suffix}"
     )
-    message(linked "${CMAKE_CURRENT_LIST_DIR}/rust/target/${rust_build_type}/${lib_prefix}rust${lib_suffix}")
-    add_dependencies(${target} build_rust_lib)
+
+    # add the Rust library include directory (not needded for Fortran)
     target_include_directories(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings")
+
+    # make sure the Rust library is built before the target
+    add_dependencies(${target} build_rust_lib)
+
+    # copy the Rust library to the target directory after building
     add_custom_command(
         TARGET ${target} POST_BUILD
         COMMAND

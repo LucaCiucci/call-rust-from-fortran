@@ -12,7 +12,7 @@ constexpr int b = 3;
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Hello from C++!" << std::endl;
     hello_from_rust();
     std::cout << a << " + " << b << " = " << rustacean_sum(a, b) << std::endl;
     std::cout << a << " + " << b << " = " << rustacean_sum_from_ptrs(&a, &b) << std::endl;
