@@ -12,4 +12,6 @@ void hello_from_rust();
 
 int rustacean_sum(int a, int b);
 
+int rustacean_sum_from_ptrs(const int *a, const int *b);
+
 } // extern "C"
