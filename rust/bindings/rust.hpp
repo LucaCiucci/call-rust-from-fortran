@@ -8,10 +8,13 @@
 
 extern "C" {
 
+/// Greet from Rust
 void hello_from_rust();
 
+/// Sum two numbers
 int rustacean_sum(int a, int b);
 
+/// Same as [rustacean_sum] but with pointers
 int rustacean_sum_from_ptrs(const int *a, const int *b);
 
 } // extern "C"

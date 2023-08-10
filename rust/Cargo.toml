@@ -24,5 +24,7 @@ lto = true
 codegen-units = 1
 panic = "abort"
 
+# This is needed for the build.rs script, remove it if you don't plan
+# of having one. See build.rs for more info.
 [build-dependencies]
 cbindgen = "0.24.5"
