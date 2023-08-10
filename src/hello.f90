@@ -1,5 +1,14 @@
 program hello_world
+    ! We need to use the ISO_C_BINDING module to declare the types compatible with C
+    use iso_c_binding
+
     implicit none
+
+    ! Declare a type that corresponds to the Rust struct.
+    type, bind(C) :: rustacean_struct
+        integer(c_int) :: number
+        real(c_float) :: pi
+    end type
 
     ! We place the declarations of the Rust functions in an interface block
     !
@@ -14,7 +23,6 @@ program hello_world
         ! This is a function with two arguments and a return value.
         ! It has a return value, so we declare it as a FUNCTION.
         function rustacean_sum(a, b) result(c) BIND(C)
-            ! We need to use the ISO_C_BINDING module to declare the types of the arguments and return value.
             use iso_c_binding
 
             ! The input arguments.
@@ -31,17 +39,21 @@ program hello_world
             integer(c_int) :: c
         end function
 
-        ! This is the same as the previous function, but we declare the arguments as references instead of values.
-        function rustacean_sum_from_ptrs(a, b) result(c) BIND(C)
+        ! This is the same as the previous one, but we declare the argument as reference instead of value.
+        subroutine display(s) BIND(C)
             use iso_c_binding
-            integer(c_int), intent(in) :: a, b ! Note: no VALUE attribute
-            integer(c_int) :: c
-        end function
+            import :: rustacean_struct
+            type(rustacean_struct), intent(in) :: s ! Note: no VALUE attribute
+        end subroutine
     end interface
+
+    type(rustacean_struct) :: s
+    s%number = 42
+    s%pi = 3.14
 
     print *, "Hello from Fortran!"
     call hello_from_rust()
     print *, "Sum of 2 and 3 is", rustacean_sum(2, 3)
-    print *, "Sum of 2 and 3 is", rustacean_sum_from_ptrs(2, 3)
+    call display(s)
 
 end program hello_world

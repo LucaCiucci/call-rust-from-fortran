@@ -1,4 +1,4 @@
-use std::ffi::c_int;
+use std::ffi::{c_int, c_float};
 
 /// Greet from Rust
 #[no_mangle]
@@ -12,8 +12,16 @@ pub extern "C" fn rustacean_sum(a: c_int, b: c_int) -> c_int {
     a + b
 }
 
+#[repr(C)]
+#[derive(Debug)]
+#[allow(non_camel_case_types)]
+pub struct rustacean_struct {
+    pub number: c_int,
+    pub pi: c_float,
+}
+
 /// Same as [rustacean_sum] but with pointers
 #[no_mangle]
-pub extern "C" fn rustacean_sum_from_ptrs(a: &c_int, b: &c_int) -> c_int {
-    a + b
+pub extern "C" fn display(s: &rustacean_struct) {
+    println!("Rustacean struct: {:#?}", s);
 }

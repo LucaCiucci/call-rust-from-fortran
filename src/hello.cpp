@@ -15,6 +15,11 @@ int main(int argc, char* argv[])
     std::cout << "Hello from C++!" << std::endl;
     hello_from_rust();
     std::cout << a << " + " << b << " = " << rustacean_sum(a, b) << std::endl;
-    std::cout << a << " + " << b << " = " << rustacean_sum_from_ptrs(&a, &b) << std::endl;
+    
+    const rustacean_struct s = {
+        42,
+        3.14,
+    };
+    display(&s);
     return 0;
 }

@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+typedef struct rustacean_struct {
+  int number;
+  float pi;
+} rustacean_struct;
+
 /**
  * Greet from Rust
  */
@@ -18,4 +23,4 @@ int rustacean_sum(int a, int b);
 /**
  * Same as [rustacean_sum] but with pointers
  */
-int rustacean_sum_from_ptrs(const int *a, const int *b);
+void display(const struct rustacean_struct *s);
