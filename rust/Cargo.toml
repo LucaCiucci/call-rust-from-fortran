@@ -23,3 +23,6 @@ opt-level = "z"
 lto = true
 codegen-units = 1
 panic = "abort"
+
+[build-dependencies]
+cbindgen = "0.24.5"
