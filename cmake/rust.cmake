@@ -61,7 +61,7 @@ else()
 endif()
 
 # links a target to the Rust library
-function(link_rust_library target)
+function(link_rust_library target language)
     detect_rust_build_type(rust_build_type rust_profile_args)
     detect_profile_suffixes(lib_prefix dyn_lib_suffix lib_suffix)
 
@@ -74,6 +74,15 @@ function(link_rust_library target)
 
     # add the Rust library include directory (not needded for Fortran)
     target_include_directories(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings")
+
+    # if the target is a C++ target, add the Rust library include directory
+    if(language STREQUAL "CXX")
+        # nothing to do
+    elseif(language STREQUAL "Fortran")
+        target_sources(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings/rust.f90")
+    else()
+        message(FATAL_ERROR "Unknown language: ${language}")
+    endif()
 
     # make sure the Rust library is built before the target
     add_dependencies(${target} build_rust_lib)

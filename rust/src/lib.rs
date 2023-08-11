@@ -12,6 +12,7 @@ pub extern "C" fn rustacean_sum(a: c_int, b: c_int) -> c_int {
     a + b
 }
 
+/// Some Rustacean struct
 #[repr(C)]
 #[derive(Debug)]
 #[allow(non_camel_case_types)]

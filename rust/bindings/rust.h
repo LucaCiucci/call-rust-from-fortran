@@ -5,6 +5,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+/**
+ * Some Rustacean struct
+ */
 typedef struct rustacean_struct {
   int number;
   float pi;

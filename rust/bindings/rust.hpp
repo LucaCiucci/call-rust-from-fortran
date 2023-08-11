@@ -6,6 +6,7 @@
 #include <ostream>
 #include <new>
 
+/// Some Rustacean struct
 struct rustacean_struct {
   int number;
   float pi;
