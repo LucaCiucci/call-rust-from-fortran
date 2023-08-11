@@ -1,4 +1,4 @@
-use cbindgen::CustomLanguageBindgen;
+use cbindgen::CustomLanguage;
 
 use self::{functions::write_functions, items::write_items};
 
@@ -7,7 +7,7 @@ mod items;
 
 #[derive(Debug)]
 pub struct Fortran(pub String);
-impl CustomLanguageBindgen for Fortran {
+impl CustomLanguage for Fortran {
     fn write(
         &self,
         bindings: &cbindgen::Bindings,
