@@ -25,8 +25,6 @@ lto = true
 codegen-units = 1
 panic = "abort"
 
-# This is needed for the build.rs script, remove it if you don't plan
-# of having one. See build.rs for more info.
 [build-dependencies]
 cbindgen = { git = "https://github.com/LucaCiucci/cbindgen", version = "0.25.0" }
 #cbindgen = { path = "C:/Users/lucac/Documents/GitHub/cbindgen" }

@@ -1,8 +1,9 @@
-// We use this build file to generate the C/C++ header files for the Rust library.
-// This makes the integration process in C++ much easier as we can just "#include"
-// the generated "bindings/rust.hpp" file.
-// If you plan to just use the Rust library in Fortran, you can ignore this file
-// (you have to maintain the interface manually).
+// We use this build file to generate the interface bindings for the Rust
+// library.
+// It will generate:
+// - `bindings/rust.h`: the C bindings
+// - `bindings/rust.hpp`: the C++ bindings
+// - `bindings/rust.f90`: the Fortran bindings
 //
 // see https://github.com/mozilla/cbindgen/blob/v0.24.3/docs.md
 
