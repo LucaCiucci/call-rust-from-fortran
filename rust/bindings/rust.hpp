@@ -6,9 +6,16 @@
 #include <ostream>
 #include <new>
 
+enum class SomeEnum {
+  SomeEnum_A,
+  SomeEnum_B,
+};
+
+/// Some Rustacean struct
 struct rustacean_struct {
   int number;
   float pi;
+  SomeEnum e;
 };
 
 extern "C" {
@@ -20,6 +27,6 @@ void hello_from_rust();
 int rustacean_sum(int a, int b);
 
 /// Same as [rustacean_sum] but with pointers
-void display(const rustacean_struct *s);
+void display_rustacean_struct(const rustacean_struct *s);
 
 } // extern "C"

@@ -27,15 +27,14 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.3.3"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "630be753d4e58660abd17930c71b647fe46c27ea6b63cc59e1e3851406972e42"
+checksum = "b4682ae6287fcf752ecaabbfcc7b6f9b72aa33933dc23a554d853aea8eea8635"
 
 [[package]]
 name = "cbindgen"
-version = "0.24.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4b922faaf31122819ec80c4047cc684c6979a087366c069611e33649bf98e18d"
+version = "0.25.0"
+source = "git+https://github.com/LucaCiucci/cbindgen#50e0681c8b0113f103e8cabb1d62e6de52e8863b"
 dependencies = [
  "clap",
  "heck",
@@ -48,6 +47,14 @@ dependencies = [
  "syn 1.0.109",
  "tempfile",
  "toml",
+]
+
+[[package]]
+name = "cbindgen-fortran"
+version = "0.1.0"
+source = "git+https://github.com/LucaCiucci/cbindgen-fortran#3b291bfe2a40ad1ffa21519d4e88297048a00eb8"
+dependencies = [
+ "cbindgen",
 ]
 
 [[package]]
@@ -208,16 +215,16 @@ dependencies = [
 name = "rust"
 version = "0.1.0"
 dependencies = [
- "cbindgen",
+ "cbindgen-fortran",
 ]
 
 [[package]]
 name = "rustix"
-version = "0.38.7"
+version = "0.38.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "172891ebdceb05aa0005f533a6cbfca599ddd7d966f6f5d4d9b2e70478e70399"
+checksum = "19ed4fa021d81c8392ce04db050a3da9a60299050b7ae1cf482d862b54a7218f"
 dependencies = [
- "bitflags 2.3.3",
+ "bitflags 2.4.0",
  "errno",
  "libc",
  "linux-raw-sys",
