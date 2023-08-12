@@ -8,9 +8,7 @@
 // see https://github.com/mozilla/cbindgen/blob/v0.24.3/docs.md
 
 use std::env;
-
-mod fortran;
-use fortran::Fortran;
+use cbindgen_fortran::{cbindgen, Fortran};
 
 fn main() {
     let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();

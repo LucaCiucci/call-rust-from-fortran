@@ -2,7 +2,6 @@
 name = "rust"
 version = "0.1.0"
 edition = "2021"
-build = "build/build.rs"
 
 [lib]
 crate-type = ["cdylib"]
@@ -26,5 +25,6 @@ codegen-units = 1
 panic = "abort"
 
 [build-dependencies]
-cbindgen = { git = "https://github.com/LucaCiucci/cbindgen", version = "0.25.0" }
-#cbindgen = { path = "C:/Users/lucac/Documents/GitHub/cbindgen" }
+#cbindgen = { git = "https://github.com/LucaCiucci/cbindgen", version = "0.25.0" }
+cbindgen-fortran = { git = "https://github.com/LucaCiucci/cbindgen-fortran" }
+#cbindgen = { path = "C:/Users/lucac/Documents/GitHub/cbindgen-fortran" }

@@ -50,6 +50,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "cbindgen-fortran"
+version = "0.1.0"
+source = "git+https://github.com/LucaCiucci/cbindgen-fortran#3b291bfe2a40ad1ffa21519d4e88297048a00eb8"
+dependencies = [
+ "cbindgen",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.82"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -207,7 +215,7 @@ dependencies = [
 name = "rust"
 version = "0.1.0"
 dependencies = [
- "cbindgen",
+ "cbindgen-fortran",
 ]
 
 [[package]]
