@@ -36,7 +36,7 @@ fn main() {
 
     // generate Fortran bindings
     bindings
-        .with_custom_language(Fortran("rust".to_string()))
+        .with_custom_language(Fortran::new("rust"))
         .generate()
         .expect("Unable to generate bindings")
         .write_to_file("bindings/rust.f90");

@@ -34,7 +34,7 @@ checksum = "b4682ae6287fcf752ecaabbfcc7b6f9b72aa33933dc23a554d853aea8eea8635"
 [[package]]
 name = "cbindgen"
 version = "0.25.0"
-source = "git+https://github.com/LucaCiucci/cbindgen#b7bab49be279512c4e048b75aa627e7d5342ba5a"
+source = "git+https://github.com/LucaCiucci/cbindgen#50e0681c8b0113f103e8cabb1d62e6de52e8863b"
 dependencies = [
  "clap",
  "heck",

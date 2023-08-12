@@ -6,15 +6,26 @@ mod functions;
 mod items;
 
 #[derive(Debug)]
-pub struct Fortran(pub String);
+pub struct Fortran {
+    module_name: String,
+}
+
+impl Fortran {
+    pub fn new(module_name: &str) -> Self {
+        Self {
+            module_name: module_name.to_string(),
+        }
+    }
+}
+
 impl CustomLanguage for Fortran {
     fn write(
         &self,
-        bindings: &cbindgen::Bindings,
         file: &mut dyn std::io::Write,
+        bindings: &cbindgen::Bindings,
         _config: &cbindgen::Config
     ) -> std::io::Result<()> {
-        writeln!(file, "module {}", self.0)?;
+        writeln!(file, "module {}", self.module_name)?;
         writeln!(file, "    use iso_c_binding")?;
         writeln!(file, "    implicit none")?;
         writeln!(file)?;
@@ -30,7 +41,7 @@ impl CustomLanguage for Fortran {
         write_functions(file, bindings)?;
         writeln!(file, "    end interface")?;
 
-        writeln!(file, "end module {}", self.0)?;
+        writeln!(file, "end module {}", self.module_name)?;
 
         Ok(())
     }
