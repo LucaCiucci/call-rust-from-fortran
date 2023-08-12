@@ -1,13 +1,18 @@
-use cbindgen::{Bindings, ItemContainer, Struct};
+use cbindgen::{Bindings, ir::{ItemContainer, Struct, Item}};
+
+use self::enums::{EnumsWriter, Variant};
 
 use super::functions::declaration_type;
 
-
+pub mod enums;
 
 pub fn write_items(
     file: &mut dyn std::io::Write,
     bindings: &Bindings,
 ) -> std::io::Result<()> {
+
+    let mut enums = EnumsWriter::new();
+    
     for item in bindings.items() {
         match item {
             ItemContainer::Constant(_) => todo!(),
@@ -15,10 +20,22 @@ pub fn write_items(
             ItemContainer::OpaqueItem(_) => todo!(),
             ItemContainer::Struct(s) => write_struct(file, s, bindings)?,
             ItemContainer::Union(_) => todo!(),
-            ItemContainer::Enum(_) => todo!(),
+            ItemContainer::Enum(e) => {
+                enums.add_enum(e.name());
+                for variant in &e.variants {
+                    enums.variant(Variant {
+                        name: variant.name.clone(),
+                        docs: variant.documentation.doc_comment.clone(),
+                    })
+                }
+            },
             ItemContainer::Typedef(_) => todo!(),
         }
     }
+    writeln!(file)?;
+
+    enums.write(file)?;
+
 
     Ok(())
 }
@@ -31,7 +48,7 @@ fn write_struct(
     let name = &s.export_name;
 
     for comment in &s.documentation.doc_comment {
-        writeln!(file, "    ! {}", comment.trim())?;
+        writeln!(file, "    !{}", comment.trim())?;
     }
 
     writeln!(file, "    type, bind(C) :: {name}")?;

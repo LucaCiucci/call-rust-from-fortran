@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use cbindgen::{Bindings, Type, FunctionArgument, PrimitiveType, IntKind};
+use cbindgen::{Bindings, bindgen::ir::{Type, FunctionArgument, PrimitiveType, IntKind}, ir::{GenericPath, ItemContainer}};
 
 
 
@@ -11,7 +11,7 @@ pub fn write_functions(
     for function in bindings.functions() {
         let ret = &function.ret;
         let returns_void = function.never_return || match ret {
-            Type::Primitive(cbindgen::PrimitiveType::Void) => true,
+            Type::Primitive(PrimitiveType::Void) => true,
             _ => false,
         };
         let name = function.path().name();
@@ -51,7 +51,7 @@ pub fn write_functions(
         }
 
         for comment in &function.documentation.doc_comment {
-            writeln!(file, "        ! {}", comment)?;
+            writeln!(file, "        !{}", comment)?;
         }
 
         if returns_void {
@@ -63,7 +63,6 @@ pub fn write_functions(
         //writeln!(file, "            implicit none")?;
         writeln!(file, "            use iso_c_binding")?;
 
-        writeln!(file, "!{}", imports.len())?;
         for import in imports {
             writeln!(file, "            import :: {}", import)?;
         }
@@ -95,10 +94,28 @@ fn declare_return_type(ty: &Type, bindings: &Bindings) -> String {
     format!("{} :: result__", ty)
 }
 
+fn find_item<'a>(path: &GenericPath, bindings: &'a Bindings) -> Option<&'a ItemContainer> {
+    bindings
+        .items()
+        .iter()
+        .find(|item| {
+            item.deref().path().name() == path.name()
+        })
+}
+
 fn argument_declaration_type(ty: &Type, bindings: &Bindings) -> String {
     match ty {
         Type::Ptr { ty, .. } => declaration_type(&ty, bindings),
-        Type::Path(path) => format!("type({})", path.name()),
+        Type::Path(path) => {
+            if let Some(item) = find_item(path, bindings) {
+                match item {
+                    ItemContainer::Enum(_) => format!("integer(c_int)"),
+                    _ => format!("type({})", path.name())
+                }
+            } else {
+                unreachable!()
+            }
+        },
         Type::Primitive(ty) => format!("{}, value", primitive_declaration_type(ty)),
         Type::Array(_, _) => todo!(),
         Type::FuncPtr { .. } => todo!(),
@@ -108,7 +125,17 @@ fn argument_declaration_type(ty: &Type, bindings: &Bindings) -> String {
 pub fn declaration_type(ty: &Type, bindings: &Bindings) -> String {
     match ty {
         Type::Ptr { ty, .. } => declaration_type(&ty, bindings),
-        Type::Path(path) => format!("type({})", path.name()),
+        Type::Path(path) => {
+            if let Some(item) = find_item(path, bindings) {
+                match item {
+                    ItemContainer::Enum(_) => format!("integer(c_int)"),
+                    _ => format!("type({})", path.name())
+                }
+            } else {
+                panic!("Could not find item for path: {:?}", path);
+                //unreachable!()
+            }
+        },
         Type::Primitive(ty) => format!("{}", primitive_declaration_type(ty)),
         Type::Array(_, _) => todo!(),
         Type::FuncPtr { .. } => todo!(),

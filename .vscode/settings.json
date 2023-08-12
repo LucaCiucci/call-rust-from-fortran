@@ -2,5 +2,8 @@
     "cSpell.words": [
         "Bindgen",
         "cbindgen"
+    ],
+    "fortran.linter.includePaths": [
+        "${workspaceFolder}/rust/bindings"
     ]
 }

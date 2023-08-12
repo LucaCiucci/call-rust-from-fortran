@@ -76,7 +76,7 @@ function(link_rust_library target language)
     target_include_directories(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings")
 
     # if the target is a C++ target, add the Rust library include directory
-    if(language STREQUAL "CXX")
+    if(language STREQUAL "C" OR language STREQUAL "CXX")
         # nothing to do
     elseif(language STREQUAL "Fortran")
         target_sources(${target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/rust/bindings/rust.f90")

@@ -19,6 +19,10 @@ cmake --build .
 ```
 or just click your IDE's _build_ button.
 
+## Additional Material
+
+- [Interoperability with C - GCC](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gfortran/Interoperability-with-C.html)
+
 ## Call Fortran from Rust
 
 See <https://github.com/harbik/dierckx-sys>

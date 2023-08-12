@@ -19,7 +19,8 @@ int main(int argc, char* argv[])
     const rustacean_struct s = {
         42,
         3.14,
+        SomeEnum::SomeEnum_A,
     };
-    display(&s);
+    display_rustacean_struct(&s);
     return 0;
 }

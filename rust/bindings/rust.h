@@ -5,12 +5,18 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+typedef enum SomeEnum {
+  SomeEnum_A,
+  SomeEnum_B,
+} SomeEnum;
+
 /**
  * Some Rustacean struct
  */
 typedef struct rustacean_struct {
   int number;
   float pi;
+  enum SomeEnum e;
 } rustacean_struct;
 
 /**
@@ -26,4 +32,4 @@ int rustacean_sum(int a, int b);
 /**
  * Same as [rustacean_sum] but with pointers
  */
-void display(const struct rustacean_struct *s);
+void display_rustacean_struct(const struct rustacean_struct *s);
